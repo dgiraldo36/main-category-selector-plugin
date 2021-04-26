@@ -26,14 +26,14 @@ class MAINCATSEL {
      * The single instance of the class.
      *
      * @var self
-     * @since  1.0.0
+     * @since  0.0.1
      */
     private static $instance = null;
 
     /**
      * Allows for accessing single instance of class. Class should only be constructed once per call.
      *
-     * @since  1.0.0
+     * @since  0.0.1
      * @static
      * @return self Main instance.
      */
@@ -44,11 +44,24 @@ class MAINCATSEL {
         return self::$instance;
     }
 
+    /**
+     * Main Class Constructor.
+     *
+     * @since  0.0.1
+     */
     public function __construct() {
+        // Hooks.
         add_action( 'save_post', array( $this, 'save_main_cat' ), 10, 1 );
         add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
     }
 
+    /**
+     * Save Main Category.
+     *
+     * Updates (creates) an postmeta entry to associate main category to post.
+     *
+     * @since  0.0.1
+     */
     public function save_main_cat( $post_id ) {
         $main_cat_id = intval( sanitize_text_field( wp_unslash( $_POST['_main_cat'] ) ) );
 
@@ -60,6 +73,13 @@ class MAINCATSEL {
         }
     }
 
+    /**
+     * Metabox register.
+     *
+     * Register metabox to be rendered in posts and CPTs.
+     *
+     * @since  0.0.1
+     */
     public function add_metabox() {
         add_meta_box(
             'maincatsel_metabox',
@@ -71,6 +91,13 @@ class MAINCATSEL {
         );
     }
 
+    /**
+     * Metabox content renderer.
+     *
+     * Echoes the categories dropdown inside the metabox.
+     *
+     * @since  0.0.1
+     */
     public function main_cat_metabox() {
         $args = array(
             'echo'       => 1,
@@ -89,7 +116,7 @@ class MAINCATSEL {
  * Returns the main instance of the class.
  *
  * @since  1.0.0
- * @return CJM_Importer
+ * @return MAINCATSEL
  */
 function MAINCATSELINST() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName
     return MAINCATSEL::instance();
