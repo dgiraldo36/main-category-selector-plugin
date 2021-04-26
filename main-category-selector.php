@@ -53,6 +53,7 @@ class MAINCATSEL {
         // Hooks.
         add_action( 'save_post', array( $this, 'save_main_cat' ), 10, 1 );
         add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
+        add_action( 'before_delete_post', array( &$this, 'main_cat_delete' ) );
     }
 
     /**
@@ -107,6 +108,15 @@ class MAINCATSEL {
         );
         wp_dropdown_categories( $args );
     }
+
+    /**
+     * Handles cleanup of the main category after a post is deleted.
+     *
+     * @since 0.0.1
+     */
+    public function main_cat_delete( $post_id ) {
+        delete_post_meta( $post_id, '_main_cat' );
+    }
 }
 }
 
@@ -115,10 +125,10 @@ class MAINCATSEL {
  *
  * Returns the main instance of the class.
  *
- * @since  1.0.0
+ * @since  0.0.1
  * @return MAINCATSEL
  */
-function MAINCATSELINST() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName
+function MAINCATSELINST() {
     return MAINCATSEL::instance();
 }
 
