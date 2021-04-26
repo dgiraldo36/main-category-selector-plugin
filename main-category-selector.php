@@ -86,7 +86,7 @@ class MAINCATSEL {
 /**
  * Main instance.
  *
- * Returns the main instance of Custom CSV Importer for WP Job Manager to prevent the need to use globals.
+ * Returns the main instance of the class.
  *
  * @since  1.0.0
  * @return CJM_Importer
