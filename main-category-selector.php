@@ -45,6 +45,28 @@ class MAINCATSEL {
     }
 
     public function __construct() {
+        add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
+    }
+
+    public function add_metabox() {
+        add_meta_box(
+            'maincatsel_metabox',
+            __( 'Main Category', 'main-cat-selector' ),
+            array( $this, 'main_cat_metabox' ),
+            null,
+            'side',
+            'core'
+        );
+    }
+
+    public function main_cat_metabox() {
+        $args = array(
+            'echo'       => 1,
+            'name'       => '_main_cat',
+            'hide_empty' => 0,
+            'selected'   => get_post_meta( get_the_ID(), '_main_cat', true ),
+        );
+        wp_dropdown_categories( $args );
     }
 }
 }
