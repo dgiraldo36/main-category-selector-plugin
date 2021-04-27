@@ -73,7 +73,7 @@ class MAINCATSEL {
         $main_cat_id = intval( sanitize_text_field( wp_unslash( $_POST['_main_cat'] ) ) );
 
         if ( empty( $main_cat_id ) || ! term_exists( $main_cat_id, 'category' ) ) {
-            $this->main_cat_delete( $post_id );
+            delete_post_meta( $post_id, '_main_cat' );
             return;           
         }
 
