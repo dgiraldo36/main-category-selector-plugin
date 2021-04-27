@@ -46,6 +46,11 @@ class MAINCATSEL {
      */
     public function __construct() {}
 
+    /**
+     * Plugin Hooks Setup.
+     *
+     * @since  0.0.1
+     */
     public function plugin_setup() {
         // Hooks.
         add_action( 'save_post', array( $this, 'save_main_cat' ), 10, 1 );
@@ -141,4 +146,6 @@ class MAINCATSEL {
     }
 }
 endif;
+
+// Plugin initialization.
 add_action( 'plugins_loaded', array( MAINCATSEL::instance(), 'plugin_setup' ) );
