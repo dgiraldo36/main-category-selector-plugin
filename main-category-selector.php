@@ -53,7 +53,7 @@ class MAINCATSEL {
         // Hooks.
         add_action( 'save_post', array( $this, 'save_main_cat' ), 10, 1 );
         add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
-        add_action( 'before_delete_post', array( $this, 'main_cat_delete' ) );
+        add_action( 'deleted_term_taxonomy', array( $this, 'main_cat_delete' ) );
     }
 
     /**
@@ -123,8 +123,24 @@ class MAINCATSEL {
      *
      * @since 0.0.1
      */
-    public function main_cat_delete( $post_id ) {
-        delete_post_meta( $post_id, '_main_cat' );
+    public function main_cat_delete( $tax_id ) {
+        $args = array(
+            'post_type'     => 'post',
+            'post_status'   => 'publish',
+            'meta_query' => array(
+                array(
+                    'key' => '_main_cat',
+                    'value' => $tax_id
+                )
+            )
+        );
+
+        $posts = get_posts($args);
+        if ( $posts ) {
+            foreach ( $posts as $post ) {
+                delete_post_meta( $post->ID, '_main_cat' );
+            }
+        }
     }
 }
 }
