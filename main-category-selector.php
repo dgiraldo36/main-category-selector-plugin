@@ -101,10 +101,12 @@ class MAINCATSEL {
      */
     public function main_cat_metabox() {
         $args = array(
-            'echo'       => 1,
-            'name'       => '_main_cat',
-            'hide_empty' => 0,
-            'selected'   => get_post_meta( get_the_ID(), '_main_cat', true ),
+            'show_option_none'  => __( 'Select main category', 'main-cat-selector' ),
+            'option_none_value' => 0,
+            'echo'              => 1,
+            'name'              => '_main_cat',
+            'hide_empty'        => 0,
+            'selected'          => get_post_meta( get_the_ID(), '_main_cat', true ),
         );
         wp_dropdown_categories( $args );
     }
