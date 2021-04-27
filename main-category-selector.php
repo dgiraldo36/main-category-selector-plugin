@@ -66,12 +66,15 @@ class MAINCATSEL {
     public function save_main_cat( $post_id ) {
         $main_cat_id = intval( sanitize_text_field( wp_unslash( $_POST['_main_cat'] ) ) );
 
-        if ( ! empty( $main_cat_id ) ) {
-            update_post_meta( $post_id, '_main_cat', $main_cat_id );
-
-            // Update post categories to include main cat if not selected before:
-            wp_set_post_categories( $post_id, $main_cat_id, true );
+        if ( empty( $main_cat_id ) ) {
+            $this->main_cat_delete( $post_id );
+            return;           
         }
+
+        update_post_meta( $post_id, '_main_cat', $main_cat_id );
+
+        // Update post categories to include main cat if not selected before:
+        wp_set_post_categories( $post_id, $main_cat_id, true );
     }
 
     /**
