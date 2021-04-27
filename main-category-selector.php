@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
-if ( ! class_exists('MAINCATSEL') ) {
+if ( ! class_exists('MAINCATSEL') ) :
 class MAINCATSEL {
 
     /**
@@ -23,7 +23,7 @@ class MAINCATSEL {
      * @var self
      * @since  0.0.1
      */
-    private static $instance = null;
+    protected static $instance = null;
 
     /**
      * Allows for accessing single instance of class. Class should only be constructed once per call.
@@ -40,11 +40,13 @@ class MAINCATSEL {
     }
 
     /**
-     * Main Class Constructor.
+     * Main Class empty Constructor.
      *
      * @since  0.0.1
      */
-    public function __construct() {
+    public function __construct() {}
+
+    public function plugin_setup() {
         // Hooks.
         add_action( 'save_post', array( $this, 'save_main_cat' ), 10, 1 );
         add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
@@ -114,7 +116,7 @@ class MAINCATSEL {
     }
 
     /**
-     * Handles cleanup of the main category after a post is deleted.
+     * Handles cleanup of the main category after a category is deleted.
      *
      * @since 0.0.1
      */
@@ -138,18 +140,5 @@ class MAINCATSEL {
         }
     }
 }
-}
-
-/**
- * Main instance.
- *
- * Returns the main instance of the class.
- *
- * @since  0.0.1
- * @return MAINCATSEL
- */
-function MAINCATSELINST() {
-    return MAINCATSEL::instance();
-}
-
-$GLOBALS['maincatesel'] = MAINCATSELINST();
+endif;
+add_action( 'plugins_loaded', array( MAINCATSEL::instance(), 'plugin_setup' ) );
