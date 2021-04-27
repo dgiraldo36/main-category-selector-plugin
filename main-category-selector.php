@@ -53,7 +53,7 @@ class MAINCATSEL {
         // Hooks.
         add_action( 'save_post', array( $this, 'save_main_cat' ), 10, 1 );
         add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
-        add_action( 'before_delete_post', array( &$this, 'main_cat_delete' ) );
+        add_action( 'before_delete_post', array( $this, 'main_cat_delete' ) );
     }
 
     /**
@@ -64,6 +64,10 @@ class MAINCATSEL {
      * @since  0.0.1
      */
     public function save_main_cat( $post_id ) {
+        if ( empty( $_POST['_main_cat'] ) ) {
+            return;
+        }
+
         $main_cat_id = intval( sanitize_text_field( wp_unslash( $_POST['_main_cat'] ) ) );
 
         if ( empty( $main_cat_id ) ) {
