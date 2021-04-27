@@ -129,19 +129,19 @@ class MAINCATSEL {
         $args = array(
             'post_type'     => 'post',
             'post_status'   => 'publish',
-            'meta_query' => array(
+            'meta_query'    => array(
                 array(
-                    'key' => '_main_cat',
+                    'key'   => '_main_cat',
                     'value' => $tax_id
                 )
-            )
+            ),
+            'fields'        => 'ids',
+            'numberposts'   => -1
         );
 
         $posts = get_posts($args);
-        if ( $posts ) {
-            foreach ( $posts as $post ) {
-                delete_post_meta( $post->ID, '_main_cat' );
-            }
+        foreach ( $posts as $post ) {
+            delete_post_meta( $post, '_main_cat' );
         }
     }
 }
